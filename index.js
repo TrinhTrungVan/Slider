@@ -1,11 +1,13 @@
 const makeSlideshow = (sliderId) => {
  let currentIdx = 0
- let timerId = undefined
- const sliderContent = document.querySelector(`#${sliderId} .slider-content`)
- const dots = document.querySelector(`#${sliderId} .slider-dots`)
+ let timerId = null
+ const slider = document.getElementById(sliderId)
+
+ const sliderContent = slider.querySelector('.slider-content')
  const itemCount = sliderContent.childElementCount
- const nextBtn = document.querySelector(`#${sliderId} .next-btn`)
- const previousBtn = document.querySelector(`#${sliderId} .previous-btn`)
+ const dots = slider.querySelector('.slider-dots')
+ const nextBtn = slider.querySelector('.next-btn')
+ const previousBtn = slider.querySelector('.previous-btn')
 
  const startTimer = () => {
   timerId = setInterval(() => {
@@ -13,7 +15,7 @@ const makeSlideshow = (sliderId) => {
   }, 5000)
  }
 
- const clearTimer = () => {
+ const clearAndResumeTimer = () => {
   if (timerId) {
    window.clearInterval(timerId)
   }
@@ -24,7 +26,7 @@ const makeSlideshow = (sliderId) => {
   const clickedDot = e.target.closest('span')
   if (!clickedDot) return
 
-  clearTimer()
+  clearAndResumeTimer()
   currentIdx = clickedDot.dataset.index
 
   handleRemoveActive()
@@ -39,7 +41,7 @@ const makeSlideshow = (sliderId) => {
  }
 
  const handleNext = () => {
-  clearTimer()
+  clearAndResumeTimer()
   currentIdx++
   if (currentIdx >= itemCount) currentIdx = 0
   sliderContent.style.transform = `translateX(-${currentIdx * 100}%)`
@@ -50,7 +52,7 @@ const makeSlideshow = (sliderId) => {
  }
 
  const handlePrevious = () => {
-  clearTimer()
+  clearAndResumeTimer()
   currentIdx--
   if (currentIdx < 0) currentIdx = itemCount - 1
   sliderContent.style.transform = `translateX(-${currentIdx * 100}%)`

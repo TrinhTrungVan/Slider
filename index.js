@@ -3,6 +3,8 @@ const makeSlideshow = (sliderId) => {
  let timerId = null
  const slider = document.getElementById(sliderId)
 
+ if (!slider) return
+
  const sliderContent = slider.querySelector('.slider-content')
  const itemCount = sliderContent.childElementCount
  const dots = slider.querySelector('.slider-dots')
